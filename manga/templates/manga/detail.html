@@ -1,0 +1,54 @@
+{% extends "core/base.html" %}
+
+{% block title %}
+    {{manga.name}}
+{% endblock  %}
+
+{% block content %}
+    <div>
+        <div>
+            <img src = "{{manga.banner.url}}">
+        </div>
+        <div>
+            <h1> {{manga.name}} </h1>
+            <div>
+                <h2> The loai: {% for tag in tags %} <a href = "{% url 'mangaByTag:mangaByTag' tag.id%}">{{tag.name}} </a>{% endfor %}<h2>
+            </div>
+        </div>
+        <div>
+            <h2> Tac gia: <a href = "{%url 'author:author' author.id%}">{{manga.author}}</a> </h2>
+        </div>
+        <div>
+            <h2> So chuong hien co: {{manga.numberOfChapters}}</h2>
+        </div>
+        <div>
+            <h2> {{manga.overlook}} </h2>
+        </div>
+        <div>
+            <h2> So luot thich {{like_count}} </h2>
+            <form action = "{% url 'manga:like_manga' manga.pk%}" method = "POST">
+                {% csrf_token %}
+                {% if user.is_authenticated %}
+                    {% if liked %}
+                    <button type = "submit", name = "manga_id", value = "{{manga.id}}" class ="btn btn-primary" >Unlike</button>
+                    {% else %}
+                    <button type = "submit", name = "manga_id", value = "{{manga.id}}" class ="btn btn-primary" >Like</button>
+                    {% endif %}
+                {%else%}
+                    <button type = "submit", name = "manga_id", value = "{{manga.id}}" class ="btn btn-primary" >Like</button>
+                    <small> Ban can dang nhap de like</small>
+                {% endif%}
+            </form>
+        </div>
+        <div>
+            <h2> Danh sach chuong </h2>
+            <div class="overflow-auto">
+                {% for chapter in chapters  %}
+                    <a href = "{% url 'readingPage:readingPage' chapter.id %}">
+                        <h4> {{chapter.name}} </h4>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock  %}

@@ -1,0 +1,52 @@
+{% extends "core/base.html" %}
+{% block title %}
+    {{chapter.name}}
+{% endblock %}
+
+{% block content %}
+    <div>
+        <h1>Chapter {{chapter.name}}</h1>
+    </div>
+    <div>
+    {% for page in pages  %}
+        <div>
+            <img src = "{{page.image.url}}" class = "rounded-t-xl"> 
+        </div>
+    {% endfor %}
+    </div>
+    <h1> {{index}} </h1>
+    {% if chapter.name == 1 %}
+    <div>
+        <nav aria-label="...">
+        <ul class="pagination">
+            <li class="page-item">
+            <a class="page-link" href="{% url 'readingPage:readingPage' nextChap.id %}">Next</a>
+            </li>
+        </ul>
+        </nav>
+    </div>
+    {%elif chapter.name == numberOfChapter %}
+    <div>
+        <nav aria-label="...">
+        <ul class="pagination">
+            <li class="page-item">
+            <a class="page-link" href="{% url 'readingPage:readingPage' prevChap.id %}">Previous</a>
+            </li>
+        </ul>
+        </nav>
+    </div>
+    {% else %}
+    <div>
+        <nav aria-label="...">
+        <ul class="pagination">
+            <li class="page-item">
+            <a class="page-link" href="{% url 'readingPage:readingPage' prevChap.id %}">Previous</a>
+            </li>
+            <li class="page-item">
+            <a class="page-link" href="{% url 'readingPage:readingPage' nextChap.id %}">Next</a>
+            </li>
+        </ul>
+        </nav>
+    </div>
+    {% endif %}
+{% endblock  %}
