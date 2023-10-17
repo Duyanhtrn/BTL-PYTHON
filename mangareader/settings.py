@@ -43,9 +43,10 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'manga.apps.MangaConfig',
     'readingPage.apps.ReadingpageConfig',
-    'mangaByTag.apps.MangabytagConfig',
-    'mangaByUpdate.apps.MangabyupdateConfig',
     'author.apps.AuthorConfig',
+    'nested_inline',
+    'dal',
+    'dal_select2',
 ]
 
 MIDDLEWARE = [

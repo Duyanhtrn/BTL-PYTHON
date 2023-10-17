@@ -10,5 +10,8 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='core/login.html', authentication_form=LoginForm), name='login'),
     path('mangaByLikes/', views.mangaByLikes, name = 'mangaByLikes'),
     path('likedManga/', views.likedManga, name = 'likedManga'),
+    path('mangaByUpdate/', views.mangaByUpdate, name = 'mangaByUpdate'),
     path('filterView/', views.filterView, name = 'filterView'),
+    path('logout/', auth_views.LogoutView.as_view(template_name = 'core/frontpage.html'), name = 'logout'),
+    path('<int:pk>/', views.mangaByTag, name = 'mangaByTag'),
 ]

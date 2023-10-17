@@ -5,50 +5,74 @@
 {% endblock  %}
 
 {% block content %}
-    <div>
-        <div>
-            <img src = "{{manga.banner.url}}">
+<div class = "mw-100" style = "height: 20rem; background: #919191">
+    <img src = "{{manga.cover.url}}" class="d-block h-100 w-100" style = "object-fit:cover"/>
+</div>
+<div class="container", style = "background-color: white">
+  <div class="row">
+    <div class = "col-sm-3" >
+        <div class = "row">
+            <img src = "{{manga.banner.url}}" class = "d-block h-100 w-100">
         </div>
-        <div>
-            <h1> {{manga.name}} </h1>
-            <div>
-                <h2> The loai: {% for tag in tags %} <a href = "{% url 'mangaByTag:mangaByTag' tag.id%}">{{tag.name}} </a>{% endfor %}<h2>
-            </div>
-        </div>
-        <div>
-            <h2> Tac gia: <a href = "{%url 'author:author' author.id%}">{{manga.author}}</a> </h2>
-        </div>
-        <div>
-            <h2> So chuong hien co: {{manga.numberOfChapters}}</h2>
-        </div>
-        <div>
-            <h2> {{manga.overlook}} </h2>
-        </div>
-        <div>
-            <h2> So luot thich {{like_count}} </h2>
-            <form action = "{% url 'manga:like_manga' manga.pk%}" method = "POST">
-                {% csrf_token %}
-                {% if user.is_authenticated %}
-                    {% if liked %}
-                    <button type = "submit", name = "manga_id", value = "{{manga.id}}" class ="btn btn-primary" >Unlike</button>
-                    {% else %}
-                    <button type = "submit", name = "manga_id", value = "{{manga.id}}" class ="btn btn-primary" >Like</button>
-                    {% endif %}
-                {%else%}
-                    <button type = "submit", name = "manga_id", value = "{{manga.id}}" class ="btn btn-primary" >Like</button>
-                    <small> Ban can dang nhap de like</small>
-                {% endif%}
-            </form>
-        </div>
-        <div>
-            <h2> Danh sach chuong </h2>
-            <div class="overflow-auto">
-                {% for chapter in chapters  %}
-                    <a href = "{% url 'readingPage:readingPage' chapter.id %}">
-                        <h4> {{chapter.name}} </h4>
-                    </a>
-                {% endfor %}
+        <br>
+        <div class = "row">
+            <div class = "d-flex justify-content-center">
+                <div class = "col ">
+                <form action = "{% url 'manga:like_manga' manga.id%}" method = "POST">
+                    {% csrf_token %}
+                    {% if user.is_authenticated %}
+                        {% if liked %}
+                        <button type = "submit", name = "manga_id", value = "{{manga.id}}" class ="btn btn-outline-dark" >Đã thích</button>
+                        {% else %}
+                        <button type = "submit", name = "manga_id", value = "{{manga.id}}" class ="btn btn-outline-dark" >Thích</button>
+                        {% endif %}
+                    {%else%}
+                        <button type = "submit", name = "manga_id", value = "{{manga.id}}" class ="btn btn-outline-secondary" disabled >Thích</button>
+                        <br/>
+                        <small>Bạn cần đăng nhập để like</small>
+                    {% endif%}
+                </form>
+                </div>
             </div>
         </div>
     </div>
+    <div class = "col-6">
+        <div class="d-flex justify-content-start"><h1>{{manga.name}}</h1>
+        </div>
+        <br/>
+        <div class="d-flex justify-content-start">
+            <p>Tác giả: <a class = "text-decoration-none text-reset" href = "{%url 'author:author' author.id%}">{{manga.author}}</a><br/><br/>
+            Thể loại: {% for tag in tags %} <a class = "text-decoration-none"href = "{% url 'core:mangaByTag' tag.id%}"><button type="button" class="btn btn-outline-secondary">{{tag.name}}</button>
+            </a>{% endfor %}<br/><br/>
+            Số chương hiện có: {{chapters.count}}<br/>
+            Số lượt xem <i class="fa-solid fa-eye"></i>: {{manga.views}}<br/>
+            Số lượt thích <i class="fa-solid fa-thumbs-up"></i>:{{like_count}}
+            <br/>
+            {% if last_chapter.name > 1%}
+                Bạn đang đọc đến chương: <a href = '{% url "readingPage:readingPage" last_chapter.id %} ' class = 'text-reset'>{{last_chapter.name}}</a>
+            {% else %}
+            {% endif %}
+            <br/>
+            </p>
+        </div>
+        <br/>
+        <div class="d-flex justify-content-start overflow-auto" style = "max-height: 200px">
+            <p>Giới thiệu: <br>{{manga.overlook}}</p>
+        </div>
+    </div>
+    
+    <div class = "col-sm-3">
+        <div class = "row">
+                <h3> Danh sách chương </h3>
+            </div>
+            <div class = "row">
+                {% for chapter in chapters %}
+                    <div class = "row">
+                        <a href = "{% url 'readingPage:readingPage' chapter.id %}" class = "d-flex justify-content-center text-reset "> Chương {{chapter.name}}</a>
+                    </div>
+                {% endfor %}
+            </div>
+    </div>
+  </div>
+</div>
 {% endblock  %}

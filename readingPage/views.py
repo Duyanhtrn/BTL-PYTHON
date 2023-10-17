@@ -4,32 +4,51 @@ from manga.models import Chapter
 # Create your views here.
 def readingPage(request, pk):
     chapter = get_object_or_404(Chapter, pk = pk)
+    if(request.user not in chapter.user_visited.all()):
+        chapter.user_visited.add(request.user)
     pages = Page.objects.filter(chapter = chapter)
-    chaplist = list(Chapter.objects.all().values_list("name", flat = True))
+    chapters_in_manga = Chapter.objects.filter(manga = chapter.manga)
+    chaplist = list(chapters_in_manga.all().values_list("name", flat = True))
     currentIndex = chaplist.index(chapter.name)
-    if(currentIndex == 0):
-        nextChap = Chapter.objects.all()[currentIndex+1]
+    numberOfChapter = len(chaplist)
+    manga = chapter.manga
+    if(currentIndex == 0 and numberOfChapter > 1):
+        nextChap = chapters_in_manga.all()[currentIndex+1]
         return render(request, 'readingPage/readingPage.html',{
         'pages': pages,
         'chapter': chapter,
         'nextChap': nextChap,
-        'numberOfChapter': Chapter.objects.all().__len__
+        'numberOfChapter': chapters_in_manga.all().__len__,
+        'chapters_in_manga': chapters_in_manga,
+        'manga': manga
     })
-    elif currentIndex == chapter.manga.numberOfChapters:
-        prevChap = Chapter.objects.all()[currentIndex-1]
+    elif currentIndex == numberOfChapter-1 and numberOfChapter > 1:
+        prevChap = chapters_in_manga.all()[currentIndex-1]
         return render(request, 'readingPage/readingPage.html',{
-        'pages': pages,
-        'chapter': chapter,
-        'prevChap': prevChap,
-        'numberOfChapter': Chapter.objects.all().__len__
+            'pages': pages,
+            'chapter': chapter,
+            'prevChap': prevChap,
+            'numberOfChapter': chapters_in_manga.all().__len__,
+            'chapters_in_manga': chapters_in_manga,
+            'manga': manga
     })
+    elif currentIndex == 0 and numberOfChapter ==1:
+        return render(request, 'readingPage/readingPage.html',{
+            'pages': pages,
+            'chapter': chapter,
+            'numberOfChapter': chapters_in_manga.all().__len__,
+            'chapters_in_manga': chapters_in_manga,
+            'manga': manga
+        })
     else:
-        nextChap = Chapter.objects.all()[currentIndex+1]
-        prevChap = Chapter.objects.all()[currentIndex-1]
+        nextChap = chapters_in_manga.all()[currentIndex+1]
+        prevChap = chapters_in_manga.all()[currentIndex-1]
         return render(request, 'readingPage/readingPage.html',{
             'pages': pages,
             'chapter': chapter,
             'nextChap': nextChap,
             'prevChap': prevChap,
-            'numberOfChapter': Chapter.objects.all().__len__
+            'numberOfChapter': chapters_in_manga.all().__len__,
+            'chapters_in_manga': chapters_in_manga,
+            'manga': manga
         })

@@ -1,27 +1,28 @@
 {% extends "core/base.html" %}
 
 {% block content %}
-<div>
-    {% if mangas %}
-        <h1> Ket qua tim kiem cho {{searched}}</h1>
-        {% for manga in mangas  %}
-            <div class="col-sm-3 col-md-6", tyle="background-color:yellow;">
-                <a href = "{% url 'manga:detail' manga.id %}">
-                    <div> 
-                        <img src = "{{manga.banner.url}}" class = "rounded-t-xl">
-                    </div>
+{% if mangas %}
 
-                    <div>
-                        <h2> {{manga.name}} </h2>
-                        <p> Số chương hiện có: {{manga.numberOfChapters}} <p>
+<h2 class="mb-12 text-2xl text-center">Kết quả tìm kiếm cho {{searched}}</h2>
+<div class="container" style = "background-color: white">
+        <div class="container">
+        <div class="row row-cols-6">
+            {% for manga in mangas  %}
+                <div class="col">
+                    <a class = "text-reset text-decoration-none" href = "{% url 'manga:detail' manga.id %}">
+                    <div> 
+                        <img src = "{{manga.banner.url}}" class = "rounded-t-xl" width = "140" height = "200">
                     </div>
-                    
-                </a>
-            </div>
+                    <h3> {{manga.name}} </h3>
+                    </a>
+                </div>
         {% endfor %}
-    {% else %}
-        <h1> Khong tim thay ket qua cho {{searched}}</h1>
-    {% endif %}
-    
+        </div>
+        </div>
 </div>
+{% else %}
+<div class="container" style = "background-color: white">
+        <h2 class="mb-12 text-2xl text-center">Không tìm thấy kết quả</h2>
+</div>
+{% endif %}
 {% endblock content %}

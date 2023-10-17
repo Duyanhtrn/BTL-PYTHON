@@ -4,5 +4,4 @@ from manga.models import Chapter, Manga
 class Page(models.Model):
     image = models.ImageField(null=True)
     chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE, default=0, related_name='chapter')
-    slug = models.SlugField(default="", null=False)
 

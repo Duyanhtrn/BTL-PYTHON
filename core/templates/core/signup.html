@@ -5,43 +5,65 @@ Sign up
 {% endblock title %}
 
 {% block content %}
-<div class="w-1/2 my-6 mx-auto p-6 bg-gray-100 rounded-xl">
-    <h1 class="mb-6 text-3xl">Sign up</h1>
+<section class="h-100 gradient-form" style="background-color: #eee;">
+  <div class="container py-5 h-100" style = "max-height: 900px">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-xl-10">
+        <div class="card rounded-3 text-black">
+          <div class="row g-0 d-flex justify-content-center">
+            <div class="col-lg-6">
+              <div class="card-body p-md-5 mx-md-4">
 
-    <form method="post" action=".">
-        {% csrf_token %}
+                <div class="text-center">
+                  
+                  <h4 class="mt-1 mb-5 pb-1">Đăng Ký Tài Khoản</h4>
+                </div>
 
-        <div class="mb-3">
-            <label class="inline-block mb-2">Username</label><br>
-            {{ form.username }}
-        </div>
+                <form method = 'POST' action = '.'>
+                {% csrf_token %}
+                <div>
+                  <div class="form-outline mb-4">
 
-        <div class="mb-3">
-            <label class="inline-block mb-2">Email</label><br>
-            {{ form.email }}
-        </div>
+                    <label class="form-label" for="form2Example11">Tên người dùng</label>
+                    {{form.username}}
+                  </div>
 
-        <div class="mb-3">
-            <label class="inline-block mb-2">Password</label><br>
-            {{ form.password1 }}
-        </div>
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="form2Example22">Email</label>
+                    {{ form.email }}
+                  </div>
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="form2Example22">Mật khẩu</label>
+                    {{ form.password1 }}
+                  </div>
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="form2Example22">Nhập lại Mật khẩu</label>
+                    {{ form.password2 }}
+                  </div>
+                  {% if form.errors or form.non_field_errors %}
+                              <div class="mb-3 p-6 bg-red-100 rounded-xl">
+                                  {% for field in form %}
+                                      {{ field.errors }}
+                                  {% endfor %}
 
-        <div class="mb-3">
-            <label class="inline-block mb-2">Repeat password</label><br>
-            {{ form.password2 }}
-        </div>
+                                  {{ form.non_field_errors }}
+                              </div>
+                  {% endif %}
+                          <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3">Đăng Ký</button>
 
-        {% if form.errors or form.non_field_errors %}
-            <div class="mb-3 p-6 bg-red-100 rounded-xl">
-                {% for field in form %}
-                    {{ field.errors }}
-                {% endfor %}
+              
+                </form>
 
-                {{ form.non_field_errors }}
+              </div>
             </div>
-        {% endif %}
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <button class="py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white">Submit</button>
-    </form>
+
 </div>
 {% endblock content %}
