@@ -41,16 +41,19 @@
         </div>
         <br/>
         <div class="d-flex justify-content-start">
-            <p>Tác giả: <a class = "text-decoration-none text-reset" href = "{%url 'author:author' author.id%}">{{manga.author}}</a><br/><br/>
+            <p>Tác giả: <a class = " text-reset" href = "{%url 'manga:author' author.id%}">{{manga.author}}</a><br/><br/>
             Thể loại: {% for tag in tags %} <a class = "text-decoration-none"href = "{% url 'core:mangaByTag' tag.id%}"><button type="button" class="btn btn-outline-secondary">{{tag.name}}</button>
             </a>{% endfor %}<br/><br/>
             Số chương hiện có: {{chapters.count}}<br/>
             Số lượt xem <i class="fa-solid fa-eye"></i>: {{manga.views}}<br/>
             Số lượt thích <i class="fa-solid fa-thumbs-up"></i>:{{like_count}}
             <br/>
-            {% if last_chapter.name > 1%}
-                Bạn đang đọc đến chương: <a href = '{% url "readingPage:readingPage" last_chapter.id %} ' class = 'text-reset'>{{last_chapter.name}}</a>
-            {% else %}
+            {% csrf_token %}
+            {% if user.is_authenticated %}
+                {% if last_chapter.name > 1%}
+                    Bạn đang đọc đến chương: <a href = '{% url "readingPage:readingPage" last_chapter.id %} ' class = 'text-reset'>{{last_chapter.name}}</a>
+                {% else %}
+                {% endif %}
             {% endif %}
             <br/>
             </p>

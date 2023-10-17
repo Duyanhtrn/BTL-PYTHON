@@ -25,6 +25,5 @@ urlpatterns = [
     path('manga/', include('manga.urls')),
     path('readingPage/', include('readingPage.urls')),
     path('searchpage/', searchpage, name = 'searchpage'),
-    path('author/', include('author.urls')),
 
 ] + static(settings.MEDIA_URL, document_root =settings.MEDIA_ROOT)

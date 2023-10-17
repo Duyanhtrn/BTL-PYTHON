@@ -57,22 +57,5 @@
 
 </div>
 
-<h2 class="mb-12 text-2xl text-center">Truyện Mới Cập Nhật</h2>
-<div class="container" style = "background-color: white">
-        <div class="container">
-        <div class="row row-cols-6">
-            {% for manga in mangas  %}
-                <div class="col">
-                    <a class = "text-reset text-decoration-none" href = "{% url 'manga:detail' manga.id %}">
-                    <div> 
-                        <img src = "{{manga.banner.url}}" class = "rounded-t-xl" width = "140" height = "200">
-                    </div>
-                    <h3> {{manga.name}} </h3>
-                    </a>
-                </div>
-        {% endfor %}
-        </div>
-        </div>
-</div>
 
 {% endblock content %}

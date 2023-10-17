@@ -14,4 +14,5 @@ urlpatterns = [
     path('filterView/', views.filterView, name = 'filterView'),
     path('logout/', auth_views.LogoutView.as_view(template_name = 'core/frontpage.html'), name = 'logout'),
     path('<int:pk>/', views.mangaByTag, name = 'mangaByTag'),
+
 ]

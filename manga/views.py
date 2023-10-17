@@ -6,25 +6,28 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 # Create your views here.
 def detail(request, pk):
-    manga = get_object_or_404(Manga, pk = pk)
+    manga = get_object_or_404(Manga, pk=pk)
     tags = manga.tag.all()
-    chapters = Chapter.objects.filter(manga = manga)
+    chapters = Chapter.objects.filter(manga=manga)
     manga.views += 1
     manga.save()
     liked = False
     last_chapter = chapters.all()[0]
-    if(len(chapters.filter(user_visited = request.user)) > 0):
-        last_chapter = chapters.filter(user_visited = request.user)[len(chapters.filter(user_visited = request.user))-1]
-    if manga.like.filter(id = request.user.id).exists():
-        liked = True
-    return render(request, 'manga/detail.html',{
+
+    if request.user.is_authenticated:
+        if len(chapters.filter(user_visited=request.user)) > 0:
+            last_chapter = chapters.filter(user_visited=request.user).last()
+        if manga.like.filter(id=request.user.id).exists():
+            liked = True
+
+    return render(request, 'manga/detail.html', {
         'manga': manga,
         'tags': tags,
         'chapters': chapters,
         'author': manga.author,
         'like_count': manga.like_count(),
         'liked': liked,
-        'last_chapter' : last_chapter
+        'last_chapter': last_chapter
     })
 
 def LikeView(request, pk):

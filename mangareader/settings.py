@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'manga.apps.MangaConfig',
     'readingPage.apps.ReadingpageConfig',
-    'author.apps.AuthorConfig',
     'nested_inline',
     'dal',
     'dal_select2',

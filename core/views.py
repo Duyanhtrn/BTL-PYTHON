@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from manga.models import Tag, Manga, Chapter
+from manga.models import Tag, Manga, Chapter, Author
 from .forms import SignupForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -182,5 +182,22 @@ def mangaByUpdate(request):
         mangas = paginator.page(paginator.num_pages)
 
     return render(request, 'core/mangaByUpdate.html', {
+        'mangas': mangas
+    })
+def author(request, pk):
+    author = get_object_or_404(Author, pk = pk)
+    mangas = Manga.objects.all().filter(author = author)
+    item_per_page = 10
+    paginator = Paginator(mangas, item_per_page)
+    page = request.GET.get('page')
+    try:
+        mangas = paginator.page(page)
+    except PageNotAnInteger:
+        mangas = paginator.page(1)
+    except EmptyPage:
+        mangas = paginator.page(paginator.num_pages)
+    mangas = Manga.objects.filter(author = author)
+    return render(request, 'core/author.html',{
+        'author': author,
         'mangas': mangas
     })
